@@ -1,4 +1,5 @@
 [![ha_badge](https://img.shields.io/badge/Home%20Assistant-Add%20On-blue.svg)](https://www.home-assistant.io/)
+![Project Stage][project-stage-shield]
 
 # !! NOTE !! - still work in progress
 
@@ -11,7 +12,7 @@
 [i386-shield]: https://img.shields.io/badge/i386-yes-green.svg
 ![aarch64-shield]
 ![amd64-shield]
-![armv6-shield]
+![armv6-shield]1
 ![armv7-shield]
 ![i386-shield]
 
@@ -22,3 +23,5 @@ This Add-on for [Home Assistant](https://www.home-assistant.io/) allows you to p
 ## Installation
 
 Install by going to Settings -> Add-ons -> Add-on store -> ⁞ (Menu) -> Repositories -> Fill in the URL `https://github.com/standamo/pinger` -> Add.
+
+[project-stage-shield]: https://img.shields.io/badge/project%20stage-experimental-yellow.svg
