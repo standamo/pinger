@@ -1,0 +1,11 @@
+name: "Pinger"
+description: "Regularly sample ping averages to defined hosts"
+version: "0.1.1"
+slug: "pinger"
+init: false
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
