@@ -1,11 +1,39 @@
 name: "Pinger"
-description: "Regularly sample ping averages to defined hosts"
+description: "Regularly sample pings to defined host"
 version: "0.1.1"
 slug: "pinger"
+url: "https://github.com/standamo/pinger"
 init: false
+host_network: true
+boot: "auto"
 arch:
   - aarch64
   - amd64
   - armhf
   - armv7
   - i386
+map:
+  - config:ro  
+options:
+  - MQTT_BIN: "/usr/bin/mosquitto_pub"
+  - MQTT_HOST: "localhost"
+  - MQTT_USERNAME: ""
+  - MQTT_PASSWORD: ""
+  - MQTT_PORT: 1883
+  - MQTT_TOPIC: "home/Pinger"
+  - LOG_LEVEL: "info"
+  - HOSTS: "8.8.8.8"
+  - INTERVAL: 57
+  - PING_COUNT: 3
+schema:
+  - MQTT_BIN: "str"
+  - MQTT_HOST: "str"
+  - MQTT_USERNAME: "str?"
+  - MQTT_PASSWORD: "str?"
+  - MQTT_PORT: "int"
+  - MQTT_TOPIC: "str?"
+  - LOG_LEVEL: "str?"
+  - HOSTS: "str?"
+  - INTERVAL: "int"
+  - PING_COUNT: "int"
+
