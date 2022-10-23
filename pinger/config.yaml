@@ -15,25 +15,25 @@ arch:
 map:
   - config:ro  
 options:
-  - MQTT_BIN: "/usr/bin/mosquitto_pub"
-  - MQTT_HOST: "localhost"
-  - MQTT_USERNAME: ""
-  - MQTT_PASSWORD: ""
-  - MQTT_PORT: 1883
-  - MQTT_TOPIC: "homeassistant/sensor/pinger"
-  - LOG_LEVEL: "info"
-  - HOSTS: "8.8.8.8"
-  - INTERVAL: 57
-  - PING_COUNT: 3
+  MQTT_BIN: "/usr/bin/mosquitto_pub"
+  MQTT_HOST: "localhost"
+  MQTT_USERNAME: ""
+  MQTT_PASSWORD: ""
+  MQTT_PORT: 1883
+  MQTT_TOPIC: "homeassistant/sensor/pinger"
+  LOG_LEVEL: "info"
+  HOSTS: "8.8.8.8"
+  INTERVAL: 57
+  PING_COUNT: 3
 schema:
-  - MQTT_BIN: "str"
-  - MQTT_HOST: "str"
-  - MQTT_USERNAME: "str?"
-  - MQTT_PASSWORD: "str?"
-  - MQTT_PORT: "int"
-  - MQTT_TOPIC: "str?"
-  - LOG_LEVEL: "str?"
-  - HOSTS: "str?"
-  - INTERVAL: "int"
-  - PING_COUNT: "int"
+  MQTT_BIN: "str"
+  MQTT_HOST: "str"
+  MQTT_USERNAME: "str?"
+  MQTT_PASSWORD: "str?"
+  MQTT_PORT: "int"
+  MQTT_TOPIC: "str?"
+  LOG_LEVEL: "str?"
+  HOSTS: "str?"
+  INTERVAL: "int"
+  PING_COUNT: "int"
 
