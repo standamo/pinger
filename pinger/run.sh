@@ -24,14 +24,17 @@ bashio::log.debug "PING_COUNT=${PING_COUNT}"
 bashio::log.debug "LOG_LEVEL=${LOG_LEVEL}"
 bashio::log.debug "HOSTS=${HOSTS}"
 while ((1)); do
-    out=`/bin/ping -c ${PING_COUNT} -i 1 -q "${HOSTS}"`
-    pct=${out%%%*}
-    pct=${pct##* }
-    mam=${out##*= }
-    mam=${mam%% *}
-    IFS=/ read min avg max <<< "${mam}"
-    bashio::log.debug "ping: ${TARGET} : loss=${pct}% : min/avg/max=${min}/${avg}/${max} msec"
-    "${MQTT_BIN}" -h "${MQTT_HOST}" -p "${MQTT_PORT}" -u "${MQTT_USERNAME}" -P "${MQTT_PASSWORD}" -t "${MQTT_TOPIC}/downstream/${counter}" -m "$message"
+    for TGTHOST in ${HOSTS}; do
+        OUT=`/bin/ping -c ${PING_COUNT} -i 1 -q "${HOST}"`
+        PCT=${OUT%%%*}
+        PCT=${PCT##* }
+        MAM=${OUT##*= }
+        MAM=${MAM%% *}
+        IFS=/ read MIN AVG MAX <<< "${MAM}"
+        bashio::log.debug "ping: ${TGTHOST} : loss=${PCT}% : min/avg/max=${MIN}/${AVG}/${MAX} msec"
+        MESSAGE="{ 'pings': ${PING_COUNT}, 'pct_loss': ${PCT}, 'min_ping': ${MIN}, 'avg_ping': ${MIN}, 'max_ping': ${MIN} }"
+        "${MQTT_BIN}" -h "${MQTT_HOST}" -p "${MQTT_PORT}" -u "${MQTT_USERNAME}" -P "${MQTT_PASSWORD}" -t "${MQTT_TOPIC}/${TGTHOST}" -m "{$MESSAGE}"
+        done
     sleep $INTERVAL
 done
 bashio::log.info "Pinger exited"
