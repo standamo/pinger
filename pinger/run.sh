@@ -25,7 +25,7 @@ bashio::log.debug "LOG_LEVEL=${LOG_LEVEL}"
 bashio::log.debug "HOSTS=${HOSTS}"
 while ((1)); do
     for TGTHOST in ${HOSTS}; do
-        OUT=`/bin/ping -c ${PING_COUNT} -i 1 -q "${HOST}"`
+        OUT=`/bin/ping -c ${PING_COUNT} -i 1 -q "${TGTHOST}"`
         PCT=${OUT%%%*}
         PCT=${PCT##* }
         MAM=${OUT##*= }
