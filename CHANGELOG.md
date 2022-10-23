@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.3
+
+- fxied ping target
+
 ## v0.1.2
 
 - prototype ready for testing
