@@ -1,3 +1,9 @@
+# Changelog
+
+## v0.1.2
+
+- prototype ready for testing
+
 ## v0.1.1
 
 - trying options file

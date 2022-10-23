@@ -1,6 +1,6 @@
 name: "Pinger"
-description: "Regularly sample pings to defined host"
-version: "0.1.1"
+description: "Regularly sample pings to defined hosts"
+version: "0.1.2"
 slug: "pinger"
 url: "https://github.com/standamo/pinger"
 init: false

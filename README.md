@@ -3,7 +3,9 @@
 [![ha_badge](https://img.shields.io/badge/Home%20Assistant-Add%20On-blue.svg)](https://www.home-assistant.io/)
 ![Project Stage][project-stage-shield]
 
-__!! NOTE !! - This is just an experimental add-on repository to play with__
+## !! NOTE !! - Experimental repository only
+
+This is just an experimental add-on repository to play with, nothing to rely on...
 
 ## Add-ons
 
