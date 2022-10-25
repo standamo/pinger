@@ -1,6 +1,6 @@
 name: "Pinger"
 description: "Regularly sample pings to defined hosts"
-version: "0.1.4"
+version: "0.1.5"
 slug: "pinger"
 url: "https://github.com/standamo/pinger/tree/main/pinger"
 init: false
@@ -20,10 +20,10 @@ options:
   MQTT_USERNAME: ""
   MQTT_PASSWORD: ""
   MQTT_PORT: 1883
-  MQTT_TOPIC: "homeassistant/sensor/pinger"
+  MQTT_TOPIC: "homeassistant/number/pinger"
   LOG_LEVEL: "info"
   HOSTS: "8.8.8.8"
-  INTERVAL: 57
+  INTERVAL: 60
   PING_COUNT: 3
 schema:
   MQTT_BIN: "str"

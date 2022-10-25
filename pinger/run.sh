@@ -23,17 +23,34 @@ bashio::log.debug "INTERVAL=${INTERVAL}"
 bashio::log.debug "PING_COUNT=${PING_COUNT}"
 bashio::log.debug "LOG_LEVEL=${LOG_LEVEL}"
 bashio::log.debug "HOSTS=${HOSTS}"
+bashio::log.info "Sending discovery messages"
+for TGTHOST in ${HOSTS}; do
+    OBJID=${TGTHOST//./_}
+    MESSAGE="{'name': 'ping_count', 'state_topic': '${MQTT_TOPIC}-${OBJID}/state', 'value_template': '{{ value_json.ping_count }}'}"
+    bashio::log.debug "Topic: ${MQTT_TOPIC}-${OBJID}-C/config   Message: ${MESSAGE}"
+    "${MQTT_BIN}" -h "${MQTT_HOST}" -p "${MQTT_PORT}" -u "${MQTT_USERNAME}" -P "${MQTT_PASSWORD}" -t "${MQTT_TOPIC}-${OBJID}-C/config" -m "${MESSAGE}"
+    MESSAGE="{'name': 'pct_loss', 'state_topic': '${MQTT_TOPIC}-${OBJID}/state', 'unit_of_measurement': '%', 'value_template': '{{ value_json.pct_loss }}'}"
+    "${MQTT_BIN}" -h "${MQTT_HOST}" -p "${MQTT_PORT}" -u "${MQTT_USERNAME}" -P "${MQTT_PASSWORD}" -t "${MQTT_TOPIC}-${OBJID}-L/config" -m "${MESSAGE}"
+    MESSAGE="{'name': 'min_ping', 'state_topic': '${MQTT_TOPIC}-${OBJID}/state', 'unit_of_measurement': 'ms', 'value_template': '{{ value_json.min_ping }}'}"
+    "${MQTT_BIN}" -h "${MQTT_HOST}" -p "${MQTT_PORT}" -u "${MQTT_USERNAME}" -P "${MQTT_PASSWORD}" -t "${MQTT_TOPIC}-${OBJID}-m/config" -m "${MESSAGE}"
+    MESSAGE="{'name': 'max_ping', 'state_topic': '${MQTT_TOPIC}-${OBJID}/state', 'unit_of_measurement': 'ms', 'value_template': '{{ value_json.max_ping }}'}"
+    "${MQTT_BIN}" -h "${MQTT_HOST}" -p "${MQTT_PORT}" -u "${MQTT_USERNAME}" -P "${MQTT_PASSWORD}" -t "${MQTT_TOPIC}-${OBJID}-M/config" -m "${MESSAGE}"
+    MESSAGE="{'name': 'avg_ping', 'state_topic': '${MQTT_TOPIC}-${OBJID}/state', 'unit_of_measurement': 'ms', 'value_template': '{{ value_json.avg_ping }}'}"
+    "${MQTT_BIN}" -h "${MQTT_HOST}" -p "${MQTT_PORT}" -u "${MQTT_USERNAME}" -P "${MQTT_PASSWORD}" -t "${MQTT_TOPIC}-${OBJID}-A/config" -m "${MESSAGE}"
+done
+bashio::log.info "Starting measurement loop"
 while ((1)); do
     for TGTHOST in ${HOSTS}; do
         OUT=`/bin/ping -c ${PING_COUNT} -i 1 -q "${TGTHOST}"`
+        OBJID=${TGTHOST//./_}
         PCT=${OUT%%%*}
         PCT=${PCT##* }
         MAM=${OUT##*= }
         MAM=${MAM%% *}
         IFS=/ read MIN AVG MAX <<< "${MAM}"
-        bashio::log.debug "ping: ${TGTHOST} : loss=${PCT}% : min/avg/max=${MIN}/${AVG}/${MAX} msec"
-        MESSAGE="{ 'pings': ${PING_COUNT}, 'pct_loss': ${PCT}, 'min_ping': ${MIN}, 'avg_ping': ${MIN}, 'max_ping': ${MIN} }"
-        "${MQTT_BIN}" -h "${MQTT_HOST}" -p "${MQTT_PORT}" -u "${MQTT_USERNAME}" -P "${MQTT_PASSWORD}" -t "${MQTT_TOPIC}/${TGTHOST}" -m "{$MESSAGE}"
+        MESSAGE="{ 'ping_count': ${PING_COUNT}, 'pct_loss': ${PCT}, 'min_ping': ${MIN}, 'avg_ping': ${MIN}, 'max_ping': ${MIN} }"
+        bashio::log.debug "Topic: ${MQTT_TOPIC}-${OBJID}/state   Message: ${MESSAGE}"
+        "${MQTT_BIN}" -h "${MQTT_HOST}" -p "${MQTT_PORT}" -u "${MQTT_USERNAME}" -P "${MQTT_PASSWORD}" -t "${MQTT_TOPIC}-${OBJID}/state" -m "${MESSAGE}"
         done
     sleep $INTERVAL
 done
