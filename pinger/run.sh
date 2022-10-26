@@ -26,16 +26,16 @@ bashio::log.debug "HOSTS=${HOSTS}"
 bashio::log.info "Sending discovery messages"
 for TGTHOST in ${HOSTS}; do
     OBJID=${TGTHOST//./_}
-    MESSAGE="{'name': 'ping_count', 'state_topic': '${MQTT_TOPIC}-${OBJID}/state', 'value_template': '{{ value_json.ping_count }}'}"
+    MESSAGE='{"name": "ping_count", "stat_t": "'${MQTT_TOPIC}-${OBJID}/state'", "val_tpl": "{{ value_json.ping_count | is_defined }}"}'
     bashio::log.debug "Topic: ${MQTT_TOPIC}-${OBJID}-C/config   Message: ${MESSAGE}"
     "${MQTT_BIN}" -h "${MQTT_HOST}" -p "${MQTT_PORT}" -u "${MQTT_USERNAME}" -P "${MQTT_PASSWORD}" -t "${MQTT_TOPIC}-${OBJID}-C/config" -m "${MESSAGE}"
-    MESSAGE="{'name': 'pct_loss', 'state_topic': '${MQTT_TOPIC}-${OBJID}/state', 'unit_of_measurement': '%', 'value_template': '{{ value_json.pct_loss }}'}"
+    MESSAGE='{"name": "pct_loss", "stat_t": "'${MQTT_TOPIC}-${OBJID}/state'", "val_tpl": "{{ value_json.pct_loss | is_defined }}", "unit_of_meas": "%"}'
     "${MQTT_BIN}" -h "${MQTT_HOST}" -p "${MQTT_PORT}" -u "${MQTT_USERNAME}" -P "${MQTT_PASSWORD}" -t "${MQTT_TOPIC}-${OBJID}-L/config" -m "${MESSAGE}"
-    MESSAGE="{'name': 'min_ping', 'state_topic': '${MQTT_TOPIC}-${OBJID}/state', 'unit_of_measurement': 'ms', 'value_template': '{{ value_json.min_ping }}'}"
+    MESSAGE='{"name": "min_ping", "stat_t": "'${MQTT_TOPIC}-${OBJID}/state'", "val_tpl": "{{ value_json.min_ping | is_defined }}", "unit_of_meas": "%"}'
     "${MQTT_BIN}" -h "${MQTT_HOST}" -p "${MQTT_PORT}" -u "${MQTT_USERNAME}" -P "${MQTT_PASSWORD}" -t "${MQTT_TOPIC}-${OBJID}-m/config" -m "${MESSAGE}"
-    MESSAGE="{'name': 'max_ping', 'state_topic': '${MQTT_TOPIC}-${OBJID}/state', 'unit_of_measurement': 'ms', 'value_template': '{{ value_json.max_ping }}'}"
+    MESSAGE='{"name": "max_ping", "stat_t": "'${MQTT_TOPIC}-${OBJID}/state'", "val_tpl": "{{ value_json.max_ping | is_defined }}", "unit_of_meas": "%"}'
     "${MQTT_BIN}" -h "${MQTT_HOST}" -p "${MQTT_PORT}" -u "${MQTT_USERNAME}" -P "${MQTT_PASSWORD}" -t "${MQTT_TOPIC}-${OBJID}-M/config" -m "${MESSAGE}"
-    MESSAGE="{'name': 'avg_ping', 'state_topic': '${MQTT_TOPIC}-${OBJID}/state', 'unit_of_measurement': 'ms', 'value_template': '{{ value_json.avg_ping }}'}"
+    MESSAGE='{"name": "avg_ping", "stat_t": "'${MQTT_TOPIC}-${OBJID}/state'", "val_tpl": "{{ value_json.avg_ping | is_defined }}", "unit_of_meas": "%"}'
     "${MQTT_BIN}" -h "${MQTT_HOST}" -p "${MQTT_PORT}" -u "${MQTT_USERNAME}" -P "${MQTT_PASSWORD}" -t "${MQTT_TOPIC}-${OBJID}-A/config" -m "${MESSAGE}"
 done
 bashio::log.info "Starting measurement loop"
@@ -48,7 +48,7 @@ while ((1)); do
         MAM=${OUT##*= }
         MAM=${MAM%% *}
         IFS=/ read MIN AVG MAX <<< "${MAM}"
-        MESSAGE="{ 'ping_count': ${PING_COUNT}, 'pct_loss': ${PCT}, 'min_ping': ${MIN}, 'avg_ping': ${MIN}, 'max_ping': ${MIN} }"
+        MESSAGE='{ "ping_count": '${PING_COUNT}', "pct_loss": '${PCT}', "min_ping": '${MIN}', "avg_ping": '${MIN}', "max_ping": '${MIN}' }'
         bashio::log.debug "Topic: ${MQTT_TOPIC}-${OBJID}/state   Message: ${MESSAGE}"
         "${MQTT_BIN}" -h "${MQTT_HOST}" -p "${MQTT_PORT}" -u "${MQTT_USERNAME}" -P "${MQTT_PASSWORD}" -t "${MQTT_TOPIC}-${OBJID}/state" -m "${MESSAGE}"
         done
