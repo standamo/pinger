@@ -48,7 +48,7 @@ while ((1)); do
         MAM=${OUT##*= }
         MAM=${MAM%% *}
         IFS=/ read MIN AVG MAX <<< "${MAM}"
-        MESSAGE='{ "ping_count": '${PING_COUNT}', "pct_loss": '${PCT}', "min_ping": '${MIN}', "avg_ping": '${MIN}', "max_ping": '${MIN}' }'
+        MESSAGE='{ "ping_count": '${PING_COUNT}', "pct_loss": '${PCT}', "min_ping": '${MIN}', "avg_ping": '${AVG}', "max_ping": '${MAX}' }'
         bashio::log.debug "Topic: ${MQTT_TOPIC}-${OBJID}/state   Message: ${MESSAGE}"
         "${MQTT_BIN}" -h "${MQTT_HOST}" -p "${MQTT_PORT}" -u "${MQTT_USERNAME}" -P "${MQTT_PASSWORD}" -t "${MQTT_TOPIC}-${OBJID}/state" -m "${MESSAGE}"
         done
