@@ -32,8 +32,8 @@ function send_config_message {
     MESSAGE='{"name": "'${OBJID}-${METRIC}'", "unique_id": "'${OBJID}-${METRIC}'", "stat_t": "'${MQTT_TOPIC}-${OBJID}/state'", '
     MESSAGE=${MESSAGE}'"val_tpl": "{{ value_json.'${METRIC}' | is_defined }}", "unit_of_meas": "'${UNITS}'", '
     MESSAGE=${MESSAGE}'"device": { "name": "pinger-'${OBJID}'", "identifiers": "pinger-'${OBJID}'", "via_device": "Pinger"}, '
-    MESSAGE=${MESSAGE}'}'
-    bashio::log.debug "Topic: ${MQTT_TOPIC}-${OBJID}-C/config   Message: ${MESSAGE}"
+    MESSAGE=${MESSAGE}'"platform": "mqtt"}'
+    bashio::log.debug "Topic: ${MQTT_TOPIC}-${OBJID}-${METRIC}/config   Message: ${MESSAGE}"
     "${MQTT_BIN}" -h "${MQTT_HOST}" -p "${MQTT_PORT}" -u "${MQTT_USERNAME}" -P "${MQTT_PASSWORD}" -t "${MQTT_TOPIC}-${OBJID}-${METRIC}/config" -m "${MESSAGE}"
 }
 
